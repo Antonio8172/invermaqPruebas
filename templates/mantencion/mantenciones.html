@@ -1,0 +1,34 @@
+{% extends 'baseCuenta.html' %}
+{% load static %}
+
+{% block titulo %}
+    Ver Mantenciones
+{% endblock titulo %}
+
+{% block contenido %}    
+    <h1>Ver Mantenciones</h1>
+    {% if mantenciones %}
+        <div class="cartas-principales">
+            {% for m in mantenciones %}
+                <div class="carta-principal">
+                    <a  href="{% url 'reportesMaqman:detalleMantencion' m.id_mantencion %}" 
+                        class="card"
+                        {% if m.valido == 1 %}
+                            style = "background-color: palegreen;"
+                            onmouseover="this.style.backgroundColor='orange'" 
+                            onmouseout="this.style.backgroundColor='palegreen'"
+                        {% endif %}>
+                        <div class="contenido-card">
+                            <textarea cols="50" rows="2" class="textarea-card" readonly>{{ m.u_p_id_persona.p_id_persona.nombres }}</textarea>
+                        </div>
+                        <p class="pie-card">{{ m.fecha|date:'F d' }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>No existen mantenciones en este momento.</h1>
+    {% endif %}
+    {% include 'includes/pagination.html' %}
+        
+{% endblock contenido %}

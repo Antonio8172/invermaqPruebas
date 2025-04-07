@@ -1,0 +1,83 @@
+{% extends 'baseCuenta.html' %}
+{% load static %}
+
+{% block titulo %}
+    Gestión de Contactos
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Gestión de Contactos</h1>
+<table>
+    <thead>
+        <tr>
+            <th colspan="7" class="first">Gestión de contactos</th>
+        </tr>
+        <tr>
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Cargo</th>
+            <th>Correo</th>
+            <th>Celular</th>
+            <!-- <th>Editar</th> -->
+            <th colspan="2">Borrar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if contacto %}
+            {% for c in contacto %}
+                <tr>
+                    <td>{{ c.nombre }}</td>
+                    <td>{{ c.empresa }}</td>
+                    <td>{{ c.cargo }}</td>
+                    <td>{{ c.correo }}</td>
+                    <td>{{ c.celular }}</td>
+                    <td colspan="2"><button class="btn-submit btn-2" onclick="borrarContacto('{{c.id_contacto}}', '{{c.nombre}}')">borrar</button></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="7"><center>No existen contactos aún.</center></td>
+        </tr>
+        {% endif %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7" style="height: 50px; background-color: black;"></td>
+        </tr>
+        <tr>
+            <form action="{% url 'reportesMaqman:gestionContactos' %}" method="POST"> {% csrf_token %}
+                <td>{{ form.nombre }}</td>
+                <td>{{ form.empresa }}</td>
+                <td>{{ form.cargo }}</td>
+                <td>{{ form.correo }}</td>
+                <td>{{ form.celular }}</td>
+                <td colspan="2"><button  class="btn-submit btn-1">Agregar Contacto</button></td>
+            </form>
+        </tr>
+    </tfoot>
+</table>
+<script>
+    function borrarContacto(i, nombre) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Borrar el contacto "'+nombre+'" será permanente.',
+            icon: 'warning',
+            showDenyButton: true,
+            denyButtonText: 'Si, borrar',
+            confirmButtonText: 'No, cancelar',
+        }).then((result) => {
+            if (result.isDenied) {
+
+                window.location.href = "/Borrar-Contacto/"+i;
+
+            } else if (result.isConfirmed) {
+                Swal.fire(
+                    'Cancelado',
+                    'El contacto "'+nombre+'" está a salvo :)',
+                    'error'
+                )
+            }
+        })
+    }
+</script>
+{% endblock contenido %}

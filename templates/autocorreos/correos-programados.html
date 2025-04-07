@@ -1,0 +1,45 @@
+{% extends 'baseCuenta.html' %}
+{% load static %}
+
+{% block titulo %}
+    Correos programados
+{% endblock titulo %}
+
+{% block contenido %}
+    <h1>Correos programados</h1>
+    {% if correos %}
+        <div class="cartas-principales">
+            {% for c in correos %}
+                <div class="carta-principal">
+                    <a  href="{% url 'reportesMaqman:detalleCorreo' c.id_correo %}" class="card" 
+                    {% if c.tipo_envio_id_tipo.tipo == "Anual" %}
+                        style="background-color: paleturquoise;"
+                    {% elif c.tipo_envio_id_tipo.tipo == "Mensual" %}
+                        style="background-color: palegoldenrod;"
+                    {% elif c.tipo_envio_id_tipo.tipo == "Semanal" %}
+                        style="background-color: palegreen;"
+                    {% elif c.tipo_envio_id_tipo.tipo == "Una sola vez" %}
+                        style="background-color: palevioletred;"
+                    {% endif %}
+                        >
+                        <div class="img-card">
+                            {% for i in imagenes %}
+                                {% if i.correo_id_correo == c %}
+                                    <img src="{{ i.imagen.url }}" alt="imagen adjunta del correo">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="contenido-card">
+                            <textarea cols="50" rows="2" class="textarea-card" readonly>Asunto: {{ c.asunto }}</textarea>
+                        </div>
+                        <p class="pie-card">{{ c.fecha|date:'F d' }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>No existen correos programados en este momento.</h1>
+    {% endif %}
+    {% include 'includes/pagination.html' %}
+        
+{% endblock contenido %}

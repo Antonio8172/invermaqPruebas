@@ -1,0 +1,204 @@
+{% extends 'baseCuenta.html' %}
+{% load static %}
+
+{% block titulo %}
+    Gestión de Usuarios
+{% endblock titulo %}
+
+{% block contenido %}
+<h1>Gestión de Usuarios</h1>
+<center>
+    <div class="caja">
+        <form action="" method="post" style="width:100%;" enctype="multipart/form-data">{% csrf_token %}
+            <table class="tabla-usuario">
+                <tr>
+                    <th class="first" colspan="3">Perfil</th>
+                </tr>
+                <tr>
+                    <th colspan="3">Datos Personales:</th>
+                </tr>
+                <tr>
+                    <td rowspan="5" style="width: 10vw;">
+                        <input oninput="mostrarImagen(this, 'imgPerfil');" class="file desaparece" type="file" name="img_perfil" id="id_img_perfil" accept="image/png, image/jpg, image/gif, image/jpeg">
+                        <label for="id_img_perfil" style="text-align: center;">
+                            <center  style="width: 7vw; height: 7vw; border-radius: 50%; display: block; margin: auto;">
+                                <img 
+                                    class="img-perfil" 
+                                    id="imgPerfil" 
+                                    src="{% static 'img/usuario.png' %}" 
+                                    alt="Imagen no encontrada" 
+                                    height="80%" 
+                                    width="80%"
+                                    style=" margin-top: 10%; border-radius: 50%;">
+                            </center>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nombres:</td>
+                    <td>{{ form.nombres }}</td>
+                </tr>
+                <tr>
+                    <td>Apellido Paterno:</td>
+                    <td>{{ form.apellido_paterno }}</td>
+                </tr>
+                <tr>
+                    <td>Apellido Materno:</td>
+                    <td>{{ form.apellido_materno }}</td>
+                </tr>
+                <tr>
+                    <td>RUT:</td>
+                    <td><input oninput="formatRut('id_rut_usuario')" type="text" name="rut_usuario" id="id_rut_usuario" placeholder="12345678-9" required maxlength="10"></td>
+                </tr>
+                <th colspan="3">Contacto:</th>
+                <tr>
+                    <td>Celular:</td>
+                    <td colspan="2">{{ form.celular }}</td>
+                </tr>
+                <tr>
+                    <td>Correo:</td>
+                    <td colspan="2">{{ form.correo }}</td>
+                </tr>
+                <th colspan="3">Usuario:</th>
+                <tr>
+                    <td>Rol:</td>
+                    <td colspan="2">
+                        <select name="rol" id="id_rol" required>
+                            <option value selected> - Seleccionar Rol -</option>
+                        
+                            {% for r in roles %}
+                                {% if r.rol != "Jefe" %}
+                                    <option value="{{ r.id_rol }}">{{ r.rol }}</option>
+                                {% endif %}
+                            {% endfor %}
+                            
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nombre de Usuario:</td>
+                    <td colspan="2"><input type="text" name="nombre_usuario" id="id_nombre_usuario" class="text" placeholder="Nombre de Usuario" required></td>
+                </tr>
+                <tr>
+                    <td>Contraseña de Usuario:</td>
+                    <td colspan="2"><input type="text" name="contraseña_usuario" id="id_contraseña_usuario" class="text" placeholder="Contraseña de Usuario" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3"><input class="btn-submit" type="submit" value="Ingresar Usuario"></td>
+                </tr>
+            </table>
+        </form>
+        <div class="cajita">
+            <table class="tabla-usuario tu1">
+                <th class="first" colspan="9">Usuarios actuales:</th>
+                <tr>
+                    <td class="first" colspan="9">
+                        <input onkeyup="filtrarUsuario();"class="text" type="text" name="buscador-usuario" id="id_buscador_usuario" placeholder="Buscar usuarios" style="background-color: lightcyan;">
+                    </td>
+                </tr>
+                <tr>
+                    <th class="t1">Imagen</th>
+                    <th class="t2">Nombres</th>
+                    <th class="t2">Apellido Paterno</th>
+                    <th class="t2">Apellido Materno</th>
+                    <th class="t3">Rol</th>
+                    <th class="t4">Report</th>
+                </tr>
+            </table>
+            <div class="tu2">
+                <table class="tabla-usuario tu2" id="tablaUsuario">
+                    {% for u in usuarios %}
+                        {% if u != user %}
+                        
+
+                            <tr class="trUsuario">
+                                <td class="t1" 
+                                    onclick="location.href='{% url 'reportesMaqman:detalleUsuario' u.p_id_persona.id_persona %}'"
+                                    {% if u.is_active == 0 %}
+                                        style="background-color: red; color: white;"
+                                    {% endif %}>
+                                    <img
+                                        style="width: 70px; height: 70px; border-radius: 50%;"
+                                        {% if u.p_id_persona.imagen %}
+                                            src="{{ u.p_id_persona.imagen.url }}" 
+                                            alt="Perfil" 
+                                        {% else %}
+                                            src="{% static 'img/usuario.png' %}" 
+                                            alt="Imagen no encontrada" 
+                                        {% endif %}
+                                        alt="">
+                                </td>
+                                <td class="t2" 
+                                    onclick="location.href='{% url 'reportesMaqman:detalleUsuario' u.p_id_persona.id_persona %}'"
+                                    {% if u.is_active == 0 %}
+                                        style="background-color: red; color: white;"
+                                    {% endif %}>{{ u.p_id_persona.nombres }}</td>
+                                <td class="t2" 
+                                    onclick="location.href='{% url 'reportesMaqman:detalleUsuario' u.p_id_persona.id_persona %}'"
+                                    {% if u.is_active == 0 %}
+                                        style="background-color: red; color: white;"
+                                    {% endif %}>{{ u.p_id_persona.apellido_paterno }}</td>
+                                <td class="t2" 
+                                    onclick="location.href='{% url 'reportesMaqman:detalleUsuario' u.p_id_persona.id_persona %}'"
+                                    {% if u.is_active == 0 %}
+                                        style="background-color: red; color: white;"
+                                    {% endif %}>{{ u.p_id_persona.apellido_materno }}</td>
+                                <td class="t3" 
+                                    onclick="location.href='{% url 'reportesMaqman:detalleUsuario' u.p_id_persona.id_persona %}'"
+                                    {% if u.is_active == 0 %}
+                                        style="background-color: red; color: white;"
+                                    {% endif %}>{{ u.r_id_rol.rol }}</td>
+                                {% if u.r_id_rol.rol == "Operador" %}
+                                    <td class="t4" style="cursor: pointer;" onclick="DescargarReporte('{{u.p_id_persona.id_persona}}', '{{ u.p_id_persona.nombres }} {{ u.p_id_persona.apellido_paterno }} {{ u.p_id_persona.apellido_materno }}');" >
+                                        <svg preserveAspectRatio="none" width="80%" viewBox="0 0 24 24" height="80%" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M16.59 9H15V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5H7.41c-.89 0-1.34 1.08-.71 1.71l4.59 4.59c.39.39 1.02.39 1.41 0l4.59-4.59c.63-.63.19-1.71-.7-1.71zM5 19c0 .55.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1H6c-.55 0-1 .45-1 1z"></path>
+                                        </svg>
+                                    </td>
+                                {% else %}
+                                    <td class="t4" style="cursor: pointer;" onclick="NoDescargar();">
+                                        <svg preserveAspectRatio="none" width="80%" viewBox="0 0 24 24" height="80%" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8 0-1.85.63-3.55 1.69-4.9L16.9 18.31C15.55 19.37 13.85 20 12 20zm6.31-3.1L7.1 5.69C8.45 4.63 10.15 4 12 4c4.42 0 8 3.58 8 8 0 1.85-.63 3.55-1.69 4.9z"></path>
+                                        </svg>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</center>
+<script src="{% static 'js/mensajes.js'%} "></script>
+<script>
+    function filtrarUsuario() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, txt, resultado;
+        input = document.getElementById("id_buscador_usuario");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaUsuario");
+        tr = table.getElementsByTagName("tr");
+        
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            resultado = '';
+            for ( j = 1; j < 5; j++){
+                td = tr[i].getElementsByTagName("td")[j];
+                txt = td.textContent || td.innerText;
+                resultado = resultado + txt + ' ';
+                if (resultado.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    table.style.height = "5vw";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<script src="{% static 'js/calculos.js'%} "></script>
+<script src="{% static 'js/modal.js'%} "></script>
+<script src="{% static 'js/mensajes.js'%} "></script>
+<script src="{% static 'js/general.js'%} "></script>
+{% endblock contenido %}

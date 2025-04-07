@@ -1,0 +1,169 @@
+.button {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: center;
+    width: 70vw; height: 40vw;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    border: 3px solid black;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 4vw;
+    cursor: pointer;
+    -webkit-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+    align-items: center;
+}
+.button svg{
+    width: 20vw;
+}
+.btn-submit{
+    width: 100%; height: 100%;
+    font-size: 2vw;
+    transition: all .2s ease-in-out;
+}
+.btn-submit.btn-1{
+    background-color: palegreen;
+}
+.btn-submit.btn-2{
+    background-color: red;
+    color: white;
+}
+.btn-submit.btn-3{
+    background-color: yellow;
+}
+.btn-submit:hover{
+    background-color: orange;
+    color: white;
+    cursor: pointer;
+}
+/* Non-mobile styles, 1024px breakpoint */
+@media only screen and (min-width: 64em) {
+    .button{
+        flex-wrap: nowrap;
+        width: 25vw; height: 25vw;
+        margin-right: 15px;
+        font-size: 2.5vw;
+    }
+}
+.button-1 {
+    background-color: grey;
+}
+
+.button-1:hover {
+    transform: scale( 1.05 );
+    box-shadow: 0 0 10px 0 black inset, 0 0 20px 2px black;
+    border: 3px solid black;
+    filter: invert(100%);
+}
+.button-2 {
+    background-color: gray;
+    width: 100px;
+}
+
+.btn-iniciar-sesion{
+    width: 300px; height: 90px;
+    min-width: 100px;
+    font-size: 36px;
+    background-color: rgb(255, 166, 0);
+    border-radius: 25px;
+    border: 1px solid rgb(255, 166, 0);
+    color: white;
+    padding: 10px 45px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+    
+.btn-iniciar-sesion:hover{
+    background-color: white;
+    color: rgb(255, 166, 0);
+    border-color: rgb(255, 166, 0);
+    /* #081F2D */
+    transition: 0.3s;
+}
+.btnis2{
+    width: 95%; height: 50px;
+    padding: 5px 10px;
+}
+
+.btn-movil{
+    width: 50px;
+    height: 50px;
+    border: 2px solid #004aa7;
+    border-radius: 50px;
+    filter: invert(100%);
+    transition: .3s ease all;
+}
+
+.btn-movil:hover{
+    box-shadow: 0 0 10px 0 #004aa7 inset, 0 0 20px 2px #004aa7;
+    transform: scale( 1.3 );
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+.sidenav__list-item, button.accordion {
+    background-color: rgba(255, 255, 255, 0.8);
+    position: relative;
+  }
+
+.accordion {
+color: rgb(0, 0, 0);
+cursor: pointer;
+padding: 10px 40px;
+margin-top: 5px;
+width: 100%;
+border: none;
+text-align: left;
+outline: none;
+font-size: 16px;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+.active, .accordion:hover {
+background-color: rgba(255, 166, 0, 0.661);
+color: black;
+}
+
+.accordion:after {
+content: '\002B';
+color: rgb(45, 45, 45);
+font-weight: bold;
+float: right;
+margin-left: 5px;
+}
+
+.active:after {
+/* content: "\2212"; */
+content: '\002B';
+}
+
+.panel {
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.8s cubic-bezier(0.93, -0.03, 0, 1.01);
+}
+
+.accordion, .sidenav__list-item {
+border-top: 1px solid rgb(100, 100, 100);
+border-bottom: 1px solid rgb(100, 100, 100);
+}
+.panel a {
+color: #000000a3;
+padding: 5px 60px;
+text-decoration: none;
+display: block;
+background-color: rgba(255, 255, 255, 0.8);
+}
+
+.panel a:hover {
+background-color: rgba(255, 166, 0, 0.661);
+color: black;
+}

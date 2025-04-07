@@ -1,0 +1,265 @@
+{% extends 'baseCuenta.html' %}
+{% load static %}
+
+{% block titulo %}
+    Generar Certificado
+{% endblock titulo %}
+
+{% block contenido %}
+<form action="{% url 'reportesMaqman:generarMantencion' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    <table>
+        <h1>Generar Certificado</h1>
+        <th class="first" colspan="5">Certificado de Mantenimiento: Minicargadores</th>
+        <tr>
+            {% if user.r_id_rol.rol == "Mecánico" %}
+                <td>Persona encargada:</td>
+                <td colspan="2">
+                    <input style="background-color: palegreen;"class="text" type="text" name="nombre_usuario"  id="id_nombre_usuario" value="{{ user.p_id_persona.nombres }} {{ user.p_id_persona.apellido_paterno }} {{ user.p_id_persona.apellido_materno }}" readonly>
+                </td>
+                <input type="hidden" name="p_id_persona"  value="{{ user.p_id_persona.id_persona }}">
+            {% else %}
+                <td>Mecánico:</td>
+                <td colspan="2">
+                    <select class="text" name="idUsuarioSelect" class="form-control" required name="nombre_usuario" id="id_nombre_usuario" onchange="changeFunc();">
+                        <option value>- Elegir Mecánico -</option>
+                        {% for m in mecanicos %}
+                        <option value="{{ m.p_id_persona.id_persona }}">{{ m.p_id_persona.nombres }} {{ m.p_id_persona.apellido_paterno }} {{ m.p_id_persona.apellido_materno }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <div id="idUsuarioInput"></div>
+            {% endif %}
+            <td>Fecha:</td>
+            <td>{{form.fecha}}</td>
+        </tr>
+        <tr>
+            <td>N° Máquina:</td>
+            <td colspan="2">{{ form.numero_maquina }}</td>
+            <td>Horómetro máquina:</td>
+            <td>{{ form.horometro_maq }}</td>
+        </tr>
+    </table>
+    <table style="border-top-left-radius: 0; border-top-right-radius: 0;">
+        <tr>
+            <th colspan="5">Inspección previa a la mantención</th>
+        </tr>
+        <tr>
+            <th style="width: 20px;">¿Qué está inspeccionando?</th>
+            <th style="width: 5%;" class="chk"></th>
+            <th style="width: 35%;">¿Qué está buscando?</th>
+            <th style="width: 5%;" class="chk"></th>
+            <th style="width: 35%;">Estado actual</th>
+        </tr>
+        <tr>
+            <th colspan="5">Estructural</th>
+        </tr>
+        
+        {% for key, value in estructural.items %}
+            <tr>
+                <input type="hidden" name="inspeccion{{ key }}" id="idInspeccion{{ key }}" value="{{ value }}" readonly class="inspeccion" required>
+                <td>  
+                    {{ value }}
+                </td>
+                <td>  
+                    <input type="text" name="chk1_{{ key }}" id="idchk1_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="busqueda{{ key }}" id="idBusqueda{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+                <td>  
+                    <input type="text" name="chk2_{{ key }}" id="idchk2_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="estado{{ key }}" id="idEstado{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="5">Fluidos</th>
+        </tr>
+        {% for key, value in fluidos.items %}
+            <tr>
+                <input type="hidden" name="inspeccion{{ key }}" id="idInspeccion{{ key }}" value="{{ value }}" readonly class="inspeccion" required>
+                <td>  
+                    {{ value }}
+                </td>
+                <td>  
+                    <input type="text" name="chk1_{{ key }}" id="idchk1_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="busqueda{{ key }}" id="idBusqueda{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+                <td>  
+                    <input type="text" name="chk2_{{ key }}" id="idchk2_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="estado{{ key }}" id="idEstado{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="5">Interior Cabina</th>
+        </tr>
+        {% for key, value in cabina.items %}
+            <tr>
+                <input type="hidden" name="inspeccion{{ key }}" id="idInspeccion{{ key }}" value="{{ value }}" readonly class="inspeccion" required>
+                <td>  
+                    {{ value }}
+                </td>
+                <td>  
+                    <input type="text" name="chk1_{{ key }}" id="idchk1_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="busqueda{{ key }}" id="idBusqueda{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+                <td>  
+                    <input type="text" name="chk2_{{ key }}" id="idchk2_{{ key }}" value="X" style="width: 100%;" required>
+                </td>
+                <td>  
+                    <textarea name="estado{{ key }}" id="idEstado{{ key }}" cols="500" rows="2" style="resize: none; font-family: monospace;" required></textarea>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <table style="border-top-left-radius: 0; border-top-right-radius: 0;"style="height: 100%;">
+        <tr>
+            <td style="height: 100%;">
+                {% for c in checks %}
+                    <input class="checkMaquina desaparece" type="checkbox" name="check_{{c}}" id="idCheck_{{c}}">
+                    <label for="idCheck_{{c}}">
+                        <center>
+                            {{c}}
+                        </center>
+                    </label>
+                {% endfor %}
+            </td>
+            <td style="height: 100%;" class="img_minicargador">
+                <img class="img_minicargador" src="{% static 'img/minicargador_lado.png' %}" alt="">
+                <img class="img_minicargador" src="{% static 'img/minicargador_atras.png' %}" alt="">
+            </td>
+        </tr>
+    </table>
+        
+
+    <table style="border-top-left-radius: 0; border-top-right-radius: 0;">
+        <tr>
+            <th colspan="4">Post-mantención</th>
+        </tr>
+        <tr>
+            <th colspan="4">Descripción de la mantención realizada</th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                {{ form.descripcion }}
+            </td>
+        </tr>
+        <tr>
+            <th colspan="4">Observaciones</th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                {{ form.observacion }}
+            </td>
+        </tr>
+        <tr>
+            <th colspan="4">Insumos utilizados</th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                {{ form.insumos }}
+            </td>
+        </tr>
+        <tr>
+            <th colspan="4">Próxima mantención</th>
+        </tr>
+        <tr>
+            <td>Fecha:</td>
+            <td>{{ form.prox_mantencion }}</td>
+            <td>Horómetro:</td>
+            <td>{{ form.prox_horometro }}</td>
+        </tr>
+    </table>
+    <table style="border-radius: 0;">
+        <tr>
+            <td class="td-img">
+                <label for="id_img_mantencion">
+                    <center>
+                        Subir archivo
+                        <input
+                            onChange="onLoadImage(event.target.files)"
+                            class="file desaparece"
+                            required
+                            type="file"
+                            name="img_mantencion"
+                            id="id_img_mantencion"
+                            accept=".pdf, .docx, .doc">
+                        <br>
+                        <span id="nombreArchivo"> - </span>
+                        <!-- <img src="{% static 'img/imageNotFound.png' %}" alt="Imagen del reporte físico" id="imgMantencion" height="150px" width="150px"> -->
+                    </center>
+                </label>
+            </td>
+            
+        </tr>
+        <style>
+            input.inspeccion{
+                width: 100%;
+            }
+    
+            input.checkMaquina + label{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            input.checkMaquina + label>center{
+                background-color: red;
+                color: white;
+                width: 50px; height: 50px;
+                margin: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            input.checkMaquina:checked + label>center{
+                background-color: green;
+                color: black;
+            }
+            img.img_minicargador{
+                width: 49%;
+            }
+            @media only screen and (max-width: 64em) {
+                input.inspeccion{
+                    width: 200px;
+                }
+                td.img_minicargador{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                }
+                img.img_minicargador{
+                    width: 80%;
+                }
+            }
+        </style>
+        <script>
+            function onLoadImage(files){
+                console.log(files)
+                if (files && files[0]) {
+                    console.log(files[0])
+                    const objetoURL = URL.createObjectURL(files[0]);
+                    document
+                    .getElementById('nombreArchivo')
+                    .innerHTML = files[0].name
+                    // + "<img src='"+objetoURL+"' alt='"+files[0].type+"'>"
+                }
+            }
+        </script>
+        <tr>
+            <td>
+                <button class="btn-submit btn-1">Mandar Certificado</button>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock contenido %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    Error 404
+{% endblock titulo %}
+
+{% block contenido %}
+<center>
+    <img src="{% static 'img/error_404.png' %}" alt="error 404 imagen" style="width: 100%;">
+    <h2>¡Ha habido un problema!</h2>
+    <h2>La página que estás buscando no existe en este momento.</h2>
+</center>
+{% endblock contenido %}

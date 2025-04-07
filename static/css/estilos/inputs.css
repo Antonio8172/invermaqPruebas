@@ -1,0 +1,85 @@
+input:valid,
+select:valid,
+textarea:valid{
+    border: 2px solid palegreen;
+    /* background-color: palegreen; */
+    transition: all .2s ease-in-out;
+}
+input:invalid,
+/* input:invalid::placeholder, */
+select:invalid,
+textarea:invalid
+/* textarea:invalid::placeholder */
+{
+    border: 2px solid red;
+    /* background-color: rgb(255, 78, 78); */
+    color: black;
+    opacity: 1;
+    transition: all .2s ease-in-out;
+}
+input:invalid:-ms-input-placeholder,
+textarea:invalid:-ms-input-placeholder{
+    color: white;
+}
+input:invalid::-ms-input-placeholder,
+textarea:invalid::-ms-input-placeholder{
+    color: white;
+}
+
+input[type="checkbox"]:checked ~ td{
+    box-shadow: 0 0 0 3px rgb(255, 166, 0);
+    background-color: palegreen;
+}
+input, textarea, select{
+    font-size: 1.4vw;
+}
+input.text, select{
+    width: 100%;
+}
+input.fechahora{
+    content: center;
+}
+input.check{
+    width: 25px;
+    height: 25px;
+}
+textarea{
+    width: 100%;
+    text-align: left;
+}
+
+input.file{
+    /* display: none; */
+    font-size: 1vw;
+    border: 3px dotted black;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+input.file::-webkit-file-upload-button{
+    display: none;
+    /* visibility: hidden; */
+}
+/* td.td-img{
+    width: 200px;
+} */
+/* td.td-img:hover{
+    background-color: orange;
+} */
+label{
+    /* color: white; */
+    text-align: center;
+    font-size: 2vw;
+    cursor: pointer;
+}
+label > center{
+    border-bottom: 3px solid black;
+}
+label > center:hover{
+    background-color: orange;
+}
+@media only screen and (max-width:64em){
+    input, textarea, select{
+        font-size: 2.2vw;
+    }
+}
