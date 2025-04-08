@@ -207,7 +207,7 @@ class ReportesExcel():
 
     def reportes_persona(self):
         wb          = Workbook()
-        operadores  = Usuario.objects.filter(r_id_rol = 1)
+        operadores  = Usuario.objects.filter(r_id_rol = 4)
 
         t = True
         lista_letras = 'BCDEFGHIJKLMNOP'
