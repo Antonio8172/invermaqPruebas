@@ -93,7 +93,8 @@ TEMPLATES = [
 DATABASES = {
 
     'default': dj_database_url.config(
-        default='oracle://'+str(get_secret('USER'))+':'+str(get_secret('PASSWORD'))+'@localhost:1521/'+str(get_secret('SID'))
+        default='postgresql://postgres:postgres@localhost/postgres',
+        conn_max_age=600,
     )
     # 'default': {
     #     'ENGINE'    : 'django.db.backends.oracle',
