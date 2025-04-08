@@ -143,8 +143,8 @@ class GestionUsuarioFormView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(GestionUsuarioFormView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -185,8 +185,8 @@ class GestionUsuarioFormView(LoginRequiredMixin, FormView):
     
     def reporte_excel(request, pk):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reporte_operador(request, pk)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -200,8 +200,8 @@ class DetalleUsuarioFormView(LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(DetalleUsuarioFormView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -353,30 +353,30 @@ class DescargarExcelTemplateView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(DescargarExcelTemplateView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
 
     def reportes_totales(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
     def reportes_mes(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes_mes(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
     def reportes_persona(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes_persona(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -392,30 +392,30 @@ class DescargarExcelMantencionTemplateView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(DescargarExcelTemplateView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
 
     def reportes_totales(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
     def reportes_mes(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes_mes(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
     def reportes_persona(request):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return ReportesExcel.reportes_persona(request)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -444,8 +444,8 @@ class ContactosFormView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'  #Cambiar por jefe y/o admin
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(ContactosFormView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -476,8 +476,8 @@ class CorreoFormView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'  #Cambiar por jefe y/o admin
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(CorreoFormView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
@@ -540,8 +540,8 @@ class CorreosListView(LoginRequiredMixin, ListView):
 
     def get(self, request, *args, **kwargs):
         permiso = request.user.r_id_rol.rol
-        rol     = 'Asistente'  #Cambiar por jefe y/o admin
-        if permiso == rol:
+        rol     = ['Asistente', 'Jefe'] 
+        if permiso in rol:
             return super(CorreosListView, self).get(request, *args, **kwargs)
         else:
             return Login.verificar_permisos_rol(permiso, request)
