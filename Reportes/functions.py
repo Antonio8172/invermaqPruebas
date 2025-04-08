@@ -87,7 +87,7 @@ class Login():
             messages.success(self.request,titulo+texto)
 
             return HttpResponseRedirect(reverse(redirect_to))
-        elif rol_id == 2:
+        elif rol.rol == "Asistente" or rol.rol == "Jefe":
             redirect_to = 'reportesMaqman:login-2'
 
             titulo = '<h2>Inicio de sesión Administrativo.</h2>'
