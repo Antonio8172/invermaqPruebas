@@ -25,7 +25,7 @@
             <td>Fecha:</td>
             <td>{{ form.fecha }}</td>
             
-            {% if user.r_id_rol.id_rol == 1 %}
+            {% if user.r_id_rol.id_rol == 4 %}
                 <td colspan="2">Operador:<input style="background-color: palegreen;"class="text" type="text" name="nombre_usuario"  id="id_nombre_usuario" value="{{ user.p_id_persona.nombres }} {{ user.p_id_persona.apellido_paterno }} {{ user.p_id_persona.apellido_materno }}" readonly></td>
                 <input type="hidden" name="p_id_persona"  value="{{ user.p_id_persona.id_persona }}">
             {% else %}
